@@ -55,9 +55,13 @@ P_INTERNAL_LINK_REF = re.compile(r'\[([^\]]+)\]\[([^\]]+)\]')
 # Pattern to match reference links (to resolve internally-defined references).
 P_INTERNAL_LINK_DEF = re.compile(r'^\[([^\]]+)\]:\s*(.+)')
 
+# Pattern to match {% include ... %} statements
+P_INTERNAL_INCLUDE_LINK = re.compile(r'^{% include ([^ ]*) %}$')
+
 # What kinds of blockquotes are allowed?
 KNOWN_BLOCKQUOTES = {
     'callout',
+    'caution',
     'challenge',
     'checklist',
     'discussion',
@@ -66,7 +70,8 @@ KNOWN_BLOCKQUOTES = {
     'prereq',
     'quotation',
     'solution',
-    'testimonial'
+    'testimonial',
+    'warning'
 }
 
 # What kinds of code fragments are allowed?
@@ -75,12 +80,11 @@ KNOWN_CODEBLOCKS = {
     'output',
     'source',
     'language-bash',
-    'html',
+    'language-html',
     'language-make',
     'language-matlab',
     'language-python',
     'language-r',
-    'language-shell',
     'language-sql'
 }
 
@@ -103,7 +107,7 @@ BREAK_METADATA_FIELDS = {
 
 # How long are lines allowed to be?
 # Please keep this in sync with .editorconfig!
-MAX_LINE_LEN = 100
+MAX_LINE_LEN = 80
 
 
 def main():
@@ -176,7 +180,7 @@ def check_config(reporter, source_dir):
     reporter.check_field(config_file, 'configuration',
                          config, 'kind', 'lesson')
     reporter.check_field(config_file, 'configuration',
-                         config, 'carpentry', ('swc', 'dc', 'lc', 'cp'))
+                         config, 'carpentry', ('swc', 'dc', 'lc', 'cp', 'incubator'))
     reporter.check_field(config_file, 'configuration', config, 'title')
     reporter.check_field(config_file, 'configuration', config, 'email')
 
@@ -208,29 +212,44 @@ def read_references(reporter, ref_path):
     {symbolic_name : URL}
     """
 
+    if not ref_path:
+        raise Warning("No filename has been provided.")
+
     result = {}
     urls_seen = set()
-    if ref_path:
-        with open(ref_path, 'r') as reader:
-            for (num, line) in enumerate(reader):
-                line_num = num + 1
-                m = P_INTERNAL_LINK_DEF.search(line)
-                require(m,
-                        '{0}:{1} not valid reference:\n{2}'.format(ref_path, line_num, line.rstrip()))
-                name = m.group(1)
-                url = m.group(2)
-                require(name,
-                        'Empty reference at {0}:{1}'.format(ref_path, line_num))
-                reporter.check(name not in result,
-                               ref_path,
-                               'Duplicate reference {0} at line {1}',
-                               name, line_num)
-                reporter.check(url not in urls_seen,
-                               ref_path,
-                               'Duplicate definition of URL {0} at line {1}',
-                               url, line_num)
-                result[name] = url
-                urls_seen.add(url)
+
+    with open(ref_path, 'r') as reader:
+        for (num, line) in enumerate(reader, 1):
+
+            if P_INTERNAL_INCLUDE_LINK.search(line): continue
+
+            m = P_INTERNAL_LINK_DEF.search(line)
+
+            message = '{}: {} not a valid reference: {}'
+            require(m, message.format(ref_path, num, line.rstrip()))
+
+            name = m.group(1)
+            url = m.group(2)
+
+            message = 'Empty reference at {0}:{1}'
+            require(name, message.format(ref_path, num))
+
+            unique_name = name not in result
+            unique_url = url not in urls_seen
+
+            reporter.check(unique_name,
+                           ref_path,
+                           'Duplicate reference name {0} at line {1}',
+                           name, num)
+
+            reporter.check(unique_url,
+                           ref_path,
+                           'Duplicate definition of URL {0} at line {1}',
+                           url, num)
+
+            result[name] = url
+            urls_seen.add(url)
+
     return result
 
 
@@ -342,7 +361,7 @@ class CheckBase:
                 n > MAX_LINE_LEN) and (not l.startswith('!'))]
             self.reporter.check(not over,
                                 self.filename,
-                                'Line(s) are too long: {0}',
+                                'Line(s) too long: {0}',
                                 ', '.join([str(i) for i in over]))
 
     def check_trailing_whitespace(self):
@@ -511,11 +530,6 @@ class CheckEpisode(CheckBase):
         require(last_line,
                 'No non-empty lines in {0}'.format(self.filename))
 
-        include_filename = os.path.split(self.args.reference_path)[-1]
-        if include_filename not in last_line:
-            self.reporter.add(self.filename,
-                              'episode does not include "{0}"',
-                              include_filename)
 
 
 class CheckReference(CheckBase):
@@ -539,7 +553,6 @@ CHECKERS = [
     (re.compile(r'index\.md'), CheckIndex),
     (re.compile(r'reference\.md'), CheckReference),
     (re.compile(r'_episodes/.*\.md'), CheckEpisode),
-    (re.compile(r'aio\.md'), CheckNonJekyll),
     (re.compile(r'.*\.md'), CheckGeneric)
 ]
 
