@@ -1,0 +1,35 @@
+The authenticity of host 'lander.nesi.org.nz (202.36.29.36)' can't be established.
+ECDSA key fingerprint is SHA256:1XNgYKsXD6Gg87lip6t7ViMid2pXM6WVg+gyC/a36Wg.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? 
+Login Password (First Factor):
+Authenticator Code (Second Factor):
+The authenticity of host 'login.mahuika.nesi.org.nz (<no hostip for proxy command>)' can't be established.
+ECDSA key fingerprint is SHA256:Se1WKeayCfi3lAxDzS7fBlS83kBaBEvBgxHoAz2HVkM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'login.mahuika.nesi.org.nz' (ECDSA) to the list of known hosts.
+Login Password:
+Last login: Mon Mar  1 03:05:01 2021 from 192.168.94.65
+
+    ••••• O ┐
+   •••••• │ O O ┐       OO    OO          #####   ####
+  ••••••• │ │ │         OOO   OO   ###   ##   ##   ##
+••••••••• O-O-O-O ┐     OOOO  OO  #  ##  ##        ##
+••••••••• │ │ │         OO OO OO #######  #####    ##
+••••••••• O-O-O-O-O-    OO  OOOO ##           ##   ##
+••••••••• │ │ │         OO   OOO  ##  #  ##   ##   ##  
+••••••••• O-O-O-O ┘     OO    OO   ###    #####   ####
+  ••••••• │ │ │
+   •••••• │ O O ┘       New Zealand eScience Infrastructure
+    ••••• O ┘
+
+By using this computer system, you accept and agree to the NeSI Terms
+and Condition of Use.  To ensure compliance with legal requirements
+and to maintain cybersecurity standards, NeSI HPC systems are subject
+to ongoing monitoring, activity logging and auditing.  This monitoring
+and auditing service may be provided by third parties.  Such third
+parties can access information transmitted to, processed by and stored
+on NeSI’s HPC systems.
+
+
+Documentation:  https://support.nesi.org.nz
+Support:        https://support.nesi.org.nz/requests
