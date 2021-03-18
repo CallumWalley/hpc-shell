@@ -1,2 +1,5 @@
-workshop_host_location: "The Moon"
-workshop_host_prompt: "[yourUsername@mahuika01 ~]$ "
+#------------------------------------------------------------
+# Values specific to use by New Zealand eScience Infrastructure
+#------------------------------------------------------------
+
+workshop_host_location: "NIWA Data Center in Wellington"
