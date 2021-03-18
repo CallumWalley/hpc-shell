@@ -11,11 +11,8 @@ any remote, advanced computing resources.
 1. Follow the instructions found in the [Software Carpentry example lesson
    source](https://github.com/carpentries/lesson-example/) to create a
    repository for your lesson.
-2. Edit [_config.yml](_config.yml) to modify the configuration options at the
-   bottom for the remote host you will be using. These options set such things
-   as the address of the host to login to and the ID that is used to
-   incorporate host-specific code snippets (see below).
-3. Create the required host-specific code snippets in subdirectories in
+2. Create any host specific `.yml` files in the directory [_includes](_includes)
+3. Create any required host-specific code snippets in the subdirectory
    [_includes/snippets](_includes/snippets). These snippets provide inputs and
    outputs that are host-specific and that are included automatically based on
    the configuration in the `_config.yml` file.
@@ -27,7 +24,7 @@ any remote, advanced computing resources.
    2. Code snippets are placed in subdirectories that are named according to
       the episode they appear in. For example, if the snippet is for episode
       01, then it will be in a subdirectory called `01`.
-
+4. Set the environment variable `HPC_JEKYLL_CONFIG` to a comma delimited list of the localized configs you plan on using from [_includes](_includes), e.g. `siteSpecific.yml,clusterSpecific.yml`. They are ordered in increasing precedence.
 
 ## Lesson writing instructions
 
@@ -91,3 +88,4 @@ Some links to example SWC workshop lessons for reference:
   (uses R markdown files instead of markdown)
 
 
+[_includes](_includes)
