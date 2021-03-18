@@ -103,27 +103,11 @@ highlighter: rouge
 # Invoke the Carpentries theme rather than copying into our repository.
 remote_theme: carpentries/carpentries-theme
 
-# Local host and scheduler options:
-# * workshop_host - The name of the remote system
-# * workshop_host_id - A unique string to identify the system (used to name code snippets)
-# * workshop_host_login - The login address for the remote system
-# * workshop_host_location - The location of the remote system
-# * workshop_host_prompt - The bash prompt on the remote host
-# * workshop_host_homedir - The location of the home directory on the remote host
-#
-# Example: Graham cluster at Compute Canada, University of Waterloo
-workshop_host: "Graham"
-workshop_host_id: "ComputeCanada_Graham"
-workshop_host_login: "graham.computecanada.ca"
-workshop_host_location: "University of Waterloo"
-workshop_host_prompt: "[yourUsername@gra-login1 ~]$ "
+# Fallback Options, these should be overwritten by config files in '_includes'
+workshop_host: "host"
+workshop_host_id: "host"
+workshop_host_login: "login.host"
+workshop_host_location: "Location" # Naming might be misleading. Is used when referring to physical location of cluster.
+workshop_host_prompt: "[yourUsername@login ~]$ "
 workshop_host_homedir: "/home"
-workshop_sched_id: "ComputeCanada_Graham_slurm"
-# Example: Cirrus at EPCC, The University of Edinburgh
-# workshop_host: "Cirrus"
-# workshop_host_id: "EPCC_Cirrus"
-# workshop_host_login: "login.cirrus.ac.uk"
-# workshop_host_location: "EPCC, The University of Edinburgh"
-# workshop_host_prompt: "[yourUsername@cirrus-login0 ~]$ "
-# workshop_host_homedir: "/lustre/home/tc001"
-
+workshop_sched_id: "sched"
